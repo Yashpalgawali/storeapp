@@ -56,7 +56,7 @@ public class VendorController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	@PutMapping("/")
+	@PutMapping("/{id}")
 	public ResponseEntity<List<Vendor>> updateVendor(@RequestBody Vendor vendor)
 	{
 		int res = vendserv.updateVendor(vendor);
