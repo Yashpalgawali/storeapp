@@ -1,0 +1,122 @@
+package com.example.demo.controller;
+
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.Customer;
+import com.example.demo.service.CustomerService;
+
+@RestController
+@RequestMapping("customer")
+@CrossOrigin("*")
+public class CustomerRestController {
+
+	@Autowired	
+	CustomerService custserv;
+	
+	
+	@PostMapping("/")
+	public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer)
+	{
+		Customer cust = custserv.saveCustomer(customer);
+		if(cust!=null)
+			return new ResponseEntity<Customer>(customer, HttpStatus.CREATED);
+		else
+			return new ResponseEntity<Customer>(customer, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/")
+	public ResponseEntity<List<Customer>> getAllCustomers() {
+		return  new ResponseEntity<List<Customer>>(custserv.getAllCustomers(),HttpStatus.OK); 
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id)
+	{
+		Customer cust = custserv.getCustomerById(""+id);
+		if(cust!=null)
+			return new ResponseEntity<Customer>(cust,HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping("/")
+	public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer)
+	{
+		int res = custserv.updateCustomer(customer);
+		if(res>0)
+			return new ResponseEntity<Customer>(customer, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+	}
+//	@GetMapping("addcustomer")
+//	public String addCustomer()
+//	{
+//		return "AddCustomer";
+//	}
+//	
+//	@RequestMapping("savecustomer")
+//	public String saveCustomer(@ModelAttribute("Customer") Customer cust,RedirectAttributes attr)
+//	{
+//		Customer custom = custserv.saveCustomer(cust);
+//		
+//		if(custom!=null)
+//		{
+//			attr.addFlashAttribute("response", "Customer is saved Successfully");
+//			return "redirect:/viewcustomers";
+//			
+//		}
+//		else {
+//			attr.addFlashAttribute("reserr", "Customer is not saved ");
+//			return "redirect:/viewcustomers";
+//		}
+//	}
+//	
+//	@RequestMapping("/viewcustomers")
+//	public String viewCustomers(Model model)
+//	{
+//		List<Customer> clist = custserv.getAllCustomers();
+//		model.addAttribute("clist", clist);
+//		
+//		return "ViewCustomers";
+//	}
+//	
+//	@RequestMapping("/editcustbyid/{id}")
+//	public String editCutomerById(@PathVariable("id") String id,Model model,RedirectAttributes attr)
+//	{
+//		Customer cust = custserv.getCustomerById(id);
+//		
+//		if(cust!=null)
+//		{
+//			model.addAttribute("cust", cust);
+//			return "EditCustomer";
+//		}
+//		attr.addFlashAttribute("reserr", "Customer not found");
+//		return "redirect:/viewcustomers";
+//	}
+//	
+//	@RequestMapping("/updatecustomer")
+//	public String updateCustomer(@ModelAttribute("Customer") Customer cust,RedirectAttributes attr)
+//	{
+//		int value = custserv.updateCustomer(cust);
+//		
+//		if(value > 0)
+//		{
+//			attr.addFlashAttribute("response", "Customer "+cust.getCust_first_name()+" "+cust.getCust_last_name()+" Updated successfully");
+//			return "redirect:/viewcustomers";
+//		}
+//		attr.addFlashAttribute("reserr", cust.getCust_first_name()+" Customer details not updated");
+//		return "redirect:/viewcustomers";
+//	}
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script src="https://kit.fontawesome.com/a076d05399.js" ></script>
+
+ 	<link th:href="@{/resources/static/css/style.css}">
+
+<title>Edit Store Details</title>
+</head>
+   <body>
+		<div th:include="Header.html :: header">
+		</div>	
+		
+		<div class="container" style="margin-top:80px;">
+			
+			<div class="card">
+			
+			<div class="card-header">
+				<h4>Edit Store Details</h4>
+			</div>
+			
+			<div class="card-body">
+				<form th:action="@{/updatestore}" method="POST">
+				 	
+				 	<input type="hidden" id="store_id" name="store_id" th:value="${store.store_id}"/>
+				 	
+				 	<div class="form-group">
+				 	  <label>Store Name</label>
+				 		<input class="form-control mb-3" placeholder="Enter Store Name" type="text"  th:value="${store.store_name}" id="store_name" name="store_name" readonly="readonly"/>
+				 	</div>
+				 
+				 	
+				 	<div class="form-group">
+				 	  <label>Address</label>
+				 		<input class="form-control mb-3" placeholder="Enter Store Address" type="text" th:value="${store.store_address}" id="store_address" name="store_address" required />
+				 	</div>
+				 	
+				 	<div class="form-group">
+				 	  <label>Contact</label>
+				 		<input class="form-control mb-3" placeholder="Enter Store Contact Number" type="text" th:value="${store.store_contact}" id="store_contact" name="store_contact" required />
+				 	</div>
+				 	
+				 	<div class="form-group">
+				 	  <label>Toll Free No.</label>
+				 		<input class="form-control mb-3" placeholder="Enter Toll Free No." type="text" id="toll_free_no" th:value="${store.toll_free_no}" name="toll_free_no" required />
+				 	</div>
+				 	
+				 	
+				 	
+				 	<input type="submit"  value="Submit" class="btn btn-primary">			 	
+				</form>
+			  </div>
+			</div>
+		</div>
+	
+	
+	<div th:replace="Footer.html :: footer">
+	</div>	
+		
+	
+  </body>
+</html>
